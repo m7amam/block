@@ -110,6 +110,11 @@ const unoArduino: MicroController = {
   sdaPins: ["A4"],
   bluetooth: ["5", "4"],
   digitalDisplay: ["4", "6"],
+  lcdScreen: ["5", "4"],
+  ledMatrix: ["5", "4"],
+  servo: ["5", "4"],
+  stepperMotor: ["4", "5"],
+  writePin: "6",
   serial_baud_rate: 9600,
   type: "salem",
   skipHoles: [

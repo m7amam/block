@@ -14,8 +14,9 @@ import {positionComponent} from '../../core/virtual-circuit/svg-position';
 import type {LedMatrixState} from './state';
 import {
     createComponentWire, createFromArduinoToComponent,
-    createGroundOrPowerWire,
+    createGroundOrPowerWire, createGroundOrPowerWireArduino,
 } from '../../core/virtual-circuit/wire';
+import {ARDUINO_PINS} from "../../core/microcontroller/selectBoard";
 
 export const ledMatrixPosition: PositionComponent<LedMatrixState> = (
     _,
@@ -168,5 +169,8 @@ export const createWiresLedMatrix: CreateWire<LedMatrixState> = (
             'PIN_DATA',
             board
         );
+
+        createGroundOrPowerWireArduino(draw, arduino as Svg, board.ledMatrix[0] as ARDUINO_PINS, ledMatrixEl, board, "ground")
+        createGroundOrPowerWireArduino(draw, arduino as Svg, board.ledMatrix[1] as ARDUINO_PINS, ledMatrixEl, board, "power")
     }
 };

@@ -51,6 +51,11 @@ export interface MicroController {
   pinConnections: { [key: string]: PinConnection };
   bluetooth: string[];
   digitalDisplay: string[];
+  lcdScreen: string[];
+  ledMatrix: string[];
+  servo: string[];
+  stepperMotor: string[];
+  writePin: string;
 }
 
 export interface MicroControllerBlocks {

@@ -13,9 +13,10 @@ import type { Svg, Text, Element } from "@svgdotjs/svg.js";
 import { positionComponent } from "../../core/virtual-circuit/svg-position";
 import type { ServoState } from "./state";
 import {
-  createComponentWire,
-  createGroundOrPowerWire,
+  createComponentWire, createFromArduinoToComponent,
+  createGroundOrPowerWire, createGroundOrPowerWireArduino,
 } from "../../core/virtual-circuit/wire";
+import {ARDUINO_PINS} from "../../core/microcontroller/selectBoard";
 
 export const servoReset: ResetComponent = (servoEl) => {
   setDegrees(servoEl, 0);
@@ -47,8 +48,17 @@ export const servoPosition: PositionComponent<ServoState> = (
   board,
   area
 ) => {
-  const { holes, isDown } = area;
-  positionComponent(servoEl, arduinoEl, draw, holes[2], isDown, "PIN_POWER");
+  if(area) {
+    const {holes, isDown} = area;
+    positionComponent(servoEl, arduinoEl, draw, holes[2], isDown, "PIN_POWER");
+  } else {
+    positionComponent(
+        servoEl,
+        arduinoEl,
+        draw,
+        "PIN_GND"
+    );
+  }
 };
 
 const setServoPinText = (servoEl: Element, servoState: ServoState) => {
@@ -81,37 +91,44 @@ export const createWiresServo: CreateWire<ServoState> = (
   board,
   area
 ) => {
-  const { holes, isDown } = area;
-
   const pin = state.pins[0];
-  createGroundOrPowerWire(
-    holes[0],
-    isDown,
-    servoEl,
-    draw,
-    arduino,
-    id,
-    "ground"
-  );
-  createGroundOrPowerWire(
-    holes[1],
-    isDown,
-    servoEl,
-    draw,
-    arduino,
-    id,
-    "power"
-  );
+  if(area) {
+    const {holes, isDown} = area;
 
-  createComponentWire(
-    holes[3],
-    isDown,
-    servoEl,
-    pin,
-    draw,
-    arduino,
-    id,
-    "PIN_DATA",
-    board
-  );
+
+    createGroundOrPowerWire(
+        holes[0],
+        isDown,
+        servoEl,
+        draw,
+        arduino,
+        id,
+        "ground"
+    );
+    createGroundOrPowerWire(
+        holes[1],
+        isDown,
+        servoEl,
+        draw,
+        arduino,
+        id,
+        "power"
+    );
+
+    createComponentWire(
+        holes[3],
+        isDown,
+        servoEl,
+        pin,
+        draw,
+        arduino,
+        id,
+        "PIN_DATA",
+        board
+    );
+  } else {
+    createFromArduinoToComponent(draw, arduino as Svg, pin, servoEl, "PIN_DATA", board );
+    createGroundOrPowerWireArduino(draw, arduino as Svg, board.servo[0] as ARDUINO_PINS, servoEl, board, "ground")
+    createGroundOrPowerWireArduino(draw, arduino as Svg, board.servo[1] as ARDUINO_PINS, servoEl, board, "power")
+  }
 };

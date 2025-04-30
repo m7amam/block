@@ -13,8 +13,9 @@ import type {Element, Svg, Text} from "@svgdotjs/svg.js";
 import {positionComponent} from "../../core/virtual-circuit/svg-position";
 import {
     createComponentWire, createFromArduinoToComponent,
-    createGroundOrPowerWire,
+    createGroundOrPowerWire, createGroundOrPowerWireArduino,
 } from "../../core/virtual-circuit/wire";
+import {ARDUINO_PINS} from "../../core/microcontroller/selectBoard";
 
 /**
  * Timer for blinking
@@ -178,7 +179,6 @@ export const createWiresLcd: CreateWire<LCDScreenState> = (
             board
         );
     } else {
-        console.log(state.pins)
         createFromArduinoToComponent(
             draw,
             arduino as Svg,
@@ -196,5 +196,8 @@ export const createWiresLcd: CreateWire<LCDScreenState> = (
             "PIN_SDA",
             board
         );
+
+        createGroundOrPowerWireArduino(draw, arduino as Svg, board.lcdScreen[0] as ARDUINO_PINS, lcdEl, board, "ground")
+        createGroundOrPowerWireArduino(draw, arduino as Svg, board.lcdScreen[1] as ARDUINO_PINS, lcdEl, board, "power")
     }
 };
