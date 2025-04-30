@@ -46,7 +46,7 @@ export interface MicroController {
   sckPins: string[];
   ssPins: string[];
   type: string;
-  breadboard: Breadboard;
+  breadboard?: Breadboard;
   skipHoles: number[];
   pinConnections: { [key: string]: PinConnection };
   bluetooth: string[];
