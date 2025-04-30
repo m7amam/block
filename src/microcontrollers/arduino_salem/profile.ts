@@ -15,7 +15,7 @@ enum WIRE_COLORS {
 }
 
 // You can't use the last hole for power or ground
-const breadboard: Breadboard = {
+/*const breadboard: Breadboard = {
   areas: [
     { holes: [3, 4, 5, 6, 7, 8], taken: false, isDown: true },
     { holes: [9, 10, 11, 12, 13, 14], taken: false, isDown: true },
@@ -29,21 +29,34 @@ const breadboard: Breadboard = {
     { holes: [57, 58, 59, 60, 61, 62], taken: false, isDown: true },
   ],
   order: [4, 6, 8, 3, 5, 7, 0, 1, 2, 3, 9, 10],
-};
+};*/
 
 const pinConnections: { [key: string]: PinConnection } = {
   "2": {
     color: WIRE_COLORS.DEEP_PURPLE,
     id: "ARDUINO_PIN_2",
+    gnd: "ARDUINO_PIN_2_GND",
+    power:"ARDUINO_PIN_2_PWR"
   },
-  "3": { color: WIRE_COLORS.YELLOW, id: "ARDUINO_PIN_3" },
+  "3": {
+    color: WIRE_COLORS.YELLOW, id: "ARDUINO_PIN_3",
+    gnd: "ARDUINO_PIN_13_GND",
+    power:"ARDUINO_PIN_13_PWR"
+  },
   "4": { color: WIRE_COLORS.GREEN, id: "ARDUINO_PIN_4" },
-  "5": { color: WIRE_COLORS.LIGHT_BROWN, id: "ARDUINO_PIN_5" },
+  "5": {
+    color: WIRE_COLORS.LIGHT_BROWN,
+    id: "ARDUINO_PIN_5",
+    gnd: "ARDUINO_PIN_13_GND",
+    power:"ARDUINO_PIN_13_PWR"
+  },
   "6": { color: WIRE_COLORS.ORANGE, id: "ARDUINO_PIN_6" },
   "7": { color: WIRE_COLORS.PURPLE, id: "ARDUINO_PIN_7" },
   "8": { color: WIRE_COLORS.DEEP_PURPLE, id: "ARDUINO_PIN_8" },
-  "9": { color: WIRE_COLORS.YELLOW, id: "ARDUINO_PIN_9" },
-  "10": { color: WIRE_COLORS.GREEN, id: "ARDUINO_PIN_10" },
+  "9": { color: WIRE_COLORS.YELLOW, id: "ARDUINO_PIN_9", gnd: "ARDUINO_PIN_13_GND",
+    power:"ARDUINO_PIN_13_PWR" },
+  "10": { color: WIRE_COLORS.GREEN, id: "ARDUINO_PIN_10", gnd: "ARDUINO_PIN_13_GND",
+    power:"ARDUINO_PIN_13_PWR" },
   "11": {
     color: WIRE_COLORS.LIGHT_BROWN,
     id: "ARDUINO_PIN_11",
@@ -55,6 +68,8 @@ const pinConnections: { [key: string]: PinConnection } = {
   "13": {
     color: WIRE_COLORS.PURPLE,
     id: "ARDUINO_PIN_13",
+    gnd: "ARDUINO_PIN_13_GND",
+    power:"ARDUINO_PIN_13_PWR"
   },
   A0: {
     color: WIRE_COLORS.PURPLE,
@@ -93,9 +108,10 @@ const unoArduino: MicroController = {
   ssPins: ["10"],
   sclPins: ["A5"],
   sdaPins: ["A4"],
+  bluetooth: ["5", "4"],
+  digitalDisplay: ["4", "6"],
   serial_baud_rate: 9600,
-  type: "uno",
-  breadboard,
+  type: "salem",
   skipHoles: [
     6, 9, 13, 18, 22, 27, 31, 37, 41, 46, 51, 54, 58, 61, 56, 50, 44, 38, 32,
     26, 20, 14, 8,
